@@ -16,7 +16,7 @@ public class User {
     private Long id;
 
     @NotNull
-    private String userid;
+    private String username; // userId
     @NotNull
     private String password;
     @NotNull
@@ -29,4 +29,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Qna> qnaBoards = new ArrayList<>();
 }

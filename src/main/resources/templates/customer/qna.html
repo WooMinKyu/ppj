@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: head('Q&A')">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/common :: menu('qna')">
+            
+    </nav>
+    <div class="container" style="margin-top: 30px ;margin-bottom: 200px;">
+        <h2 class="text-start">Q&A</h2>
+        
+        <form class="form-inline d-flex justify-content-end" method="GET" th:action="@{/board/list}">
+            <div class="input-group w-25 mt-3 mb-3">
+                <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+                <button type="submit" class="btn btn-outline-secondary">검색</button>
+            </div>
+        </form>
+        
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">번호</th>
+              <th scope="col">제목</th>
+              <th scope="col">작성자</th>
+              <th scope="col">작성날짜</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="qnaBoard : ${qnaBoards}">
+              <td th:text="${qnaBoard.id}">Mark</td>
+              <td><a th:text="${qnaBoard.title}" href="" th:href="@{/customer/qnaDetail(id=${qnaBoard.id})}">Otto</a></td>
+              <td th:text="${qnaBoard.user.username}">홍길동</td>
+              <td th:text="${qnaBoard.date}">2023-05-24</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
+              <a class="page-link" href="#" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1},searchText=${param.searchText})}" tabindex="-1"
+                aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'"
+              th:each="i : ${#numbers.sequence(startPage, endPage)}">
+              <a class="page-link" href="#" th:href="@{/board/list(page=${i - 1},searchText=${param.searchText})}" th:text="${i}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
+              <a class="page-link" href="#" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1},searchText=${param.searchText})}">Next</a>
+            </li>
+          </ul>
+        </nav> -->
+        <div class="text-end">
+            <a type="button" class="btn btn-primary" th:href="@{/customer/qnaForm}">글쓰기</a>
+        </div>
+      </div>
+
+    <footer class="py-5 bg-dark" th:replace="fragments/common :: footer"></footer>
+</body>
+</html>
