@@ -18,6 +18,7 @@ public class Qna {
     private String title;
     @NotNull
     private String content;
+    @Column(insertable = false, updatable = false)
     private String date;
 
     @ManyToOne

@@ -11,18 +11,19 @@
         <h2 class="text-start">Q&A</h2>
         
         <div class="d-flex justify-content-center">
-          <form class="w-50" th:action="@{/customer/qnaForm}" method="post">
-            
+          <form class="w-50" th:action="@{/customer/qnaForm}" th:object="${qnaBoards}" method="post">
+            <input type="hidden" th:field="*{id}">
             <div class="mb-3">
               <label for="title" class="sr-only">제목</label>
-              <input type="text" id="title" name="title" class="form-control" required autofocus>
+              <input type="text" id="title" name="title" class="form-control" th:field="*{title}" required autofocus>
             </div>
             <div class="mb-3">
               <label for="content">내용</label>
-              <textarea rows="20" id="content" name="content" class="form-control" required></textarea>
+              <textarea rows="20" id="content" name="content" class="form-control" th:field="*{content}" required></textarea>
             </div>
             <div class="d-flex justify-content-end">
-              <button class="btn btn-lg btn-primary btn-block me-2" type="submit">글쓰기</button>
+              <button class="btn btn-lg btn-primary btn-block me-2" th:if="${qnaBoards.id == null}" type="submit">글쓰기</button>
+              <button class="btn btn-lg btn-primary btn-block me-2" th:if="${qnaBoards.id != null}" type="submit">수정완료</button>
               <a class="btn btn-lg btn-outline-secondary" th:href="@{/customer/qna}">취소</a>
             </div>
           </form>

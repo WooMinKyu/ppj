@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: head('Q&A')">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/common :: menu('qna')">
+            
+    </nav>
+    <div class="container" style="margin-top: 30px ;margin-bottom: 200px;">
+        <h2 class="text-start">Q&A</h2>
+        
+        <div class="d-flex justify-content-center">
+          <form class="w-50" th:object="${qnaBoards}">
+            
+            <div class="mb-3">
+              <label for="title" class="sr-only">제목</label>
+              <input type="text" id="title" name="title" class="form-control" th:field="*{title}" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="content">내용</label>
+              <textarea rows="20" id="content" name="content" class="form-control" th:field="*{content}" disabled></textarea>
+            </div>
+            <div class="d-flex justify-content-end">
+              <a class="btn btn-lg btn-primary btn-block me-2" th:if="${correctId}" th:href="@{/customer/qnaForm(id=*{id})}">수정</a>
+              <button class="btn btn-lg btn-primary btn-block me-2" type="button"
+                      th:if="${correctId}" th:onclick="|deleteQna(*{id})|">삭제</button>
+              <a class="btn btn-lg btn-outline-secondary" th:href="@{/customer/qna}">돌아가기</a>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+
+    <footer class="py-5 bg-dark" th:replace="fragments/common :: footer"></footer>
+    <script>
+      function deleteQna(id) {
+        //DELETE /api/qna/{id}
+        $.ajax({
+          url: '/api/qna/' + id,
+          type: 'DELETE',
+          success: function (result) {
+            console.log('result', result);
+            alert('삭제됐습니다.');
+            window.location.href = '/customer/qna';
+          }
+        });
+      }
+  </script>
+</body>
+</html>
