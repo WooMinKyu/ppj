@@ -19,6 +19,7 @@
         <script th:src="@{/js/scripts.js}"></script>
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+        
     </head>
     <body>
         <!-- Navigation-->
@@ -41,11 +42,10 @@
                         <a href="#" class="text-primary text-decoration-none"><span sec:authentication="name">사용자</span>님</a>
                         <button class="btn" type="submit">로그아웃</button>
                       </form>
-                    <form class="d-flex">
+                    <form class="d-flex" th:action="@{/goods/cart}">
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            장바구니
                         </button>
                     </form>
                 </div>

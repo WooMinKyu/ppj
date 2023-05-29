@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head th:replace="fragments/common :: head('Goods')">
+        
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/common :: menu('home')">
+            
+        </nav>
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{/img/} + ${goods.img} + .jpg"/></div>
+                    <div class="col-md-6">
+                        <div class="small mb-1">카테고리: <span th:text="${goods.category}">카테고리</span></div>
+                        <h1 class="display-5 fw-bolder" th:text="${goods.name}">이름</h1>
+                        <div class="fs-5 mb-5">
+                            <!-- <span class="text-decoration-line-through">$45.00</span> -->
+                            <span th:text="${#numbers.formatInteger(goods.price, 3,'COMMA')}">가격</span>원
+                        </div>
+                        <p class="lead mb-5" th:text="${goods.description}">설명</p>
+                        <div class="d-flex pt-5">
+                            <button class="btn btn-outline-dark flex-shrink-0" th:if="${cart == null}" th:onclick="|addCart()|" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                장바구니에 담기
+                            </button>
+                            <button class="btn btn-outline-dark flex-shrink-0 me-2" th:if="${cart != null}" type="button" disabled>
+                                장바구니에 있는 상품입니다.
+                            </button>
+                            <button class="btn btn-outline-danger flex-shrink-0" th:if="${cart != null}" th:onclick="|deleteCart(${cart.id})|" type="button">
+                                장바구니 삭제
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related items section-->
+        <section class="py-5 bg-light">
+            <div class="container px-4 px-lg-5 mt-5">
+                <h2 class="fw-bolder mb-4" th:if="${goodsRelList.size() != 0}">관련상품</h2>
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                    <div class="col mb-5" th:each="relList : ${goodsRelList}">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" th:src="@{/img/} + ${relList.img} + .jpg" />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder" th:text="${relList.name}">Fancy Product</h5>
+                                    <!-- Product price-->
+                                    <span th:text="${#numbers.formatInteger(relList.price, 3,'COMMA')}">0</span>원
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+     
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark" th:replace="fragments/common :: footer"></footer>
+        <script>
+            function addCart() {
+                
+                var cart = {
+                    "name": "[[${goods.name}]]",
+                    "price": "[[${goods.price}]]",
+                    "img": "[[${goods.img}]]",
+                    "category": "[[${goods.category}]]"
+                }
+
+                $.ajax({
+                    url: '/api/cart',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(cart),
+                    success: function (result) {
+                    alert('장바구니에 추가되었습니다.');
+                    location.reload();
+                    }
+                });
+            }
+
+            function deleteCart(id) {
+                //DELETE /api/cart/{id}
+                $.ajax({
+                url: '/api/cart/' + id,
+                type: 'DELETE',
+                success: function (result) {
+                    alert('삭제됐습니다.');
+                    location.reload();
+                }
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head th:replace="fragments/common :: head('HOME')">
+        
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/common :: menu('home')">
+            
+        </nav>
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">장바구니</h1>
+                </div>
+            </div>
+        </header>
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-2">
+                <h3 class="text-start mb-5">총 갯수: <span th:text="${cartCount}"></span>개</h3>
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <div class="col mb-5" th:if="${cartCount != 0}" th:each="cartList : ${cartList}">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" th:src="@{/img/} + ${cartList.img} + .jpg"/>
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder" th:text="${cartList.name}">Fancy Product</h5>
+                                    <!-- Product price-->
+                                    <span th:text="${#numbers.formatInteger(cartList.price, 3,'COMMA')}">$40.00 - $80.00</span>원
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <button class="btn btn-outline-danger mt-auto" th:onclick="|deleteCart(${cartList.id})|" type="button">장바구니 삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mb-5 py-5" th:if="${cartCount == 0}">
+                    <h1>장바구니에 담긴 상품이 없습니다.</h1>
+                </div>
+                
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark" th:replace="fragments/common :: footer"></footer>
+        <script>
+            function deleteCart(id) {
+                //DELETE /api/cart/{id}
+                $.ajax({
+                url: '/api/cart/' + id,
+                type: 'DELETE',
+                success: function (result) {
+                    alert('삭제됐습니다.');
+                    location.reload();
+                }
+                });
+            }
+        </script>
+    </body>
+</html>

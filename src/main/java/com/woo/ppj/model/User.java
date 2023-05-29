@@ -16,6 +16,7 @@ public class User {
     private Long id;
 
     @NotNull
+    @Column(unique = true)
     private String username; // userId
     @NotNull
     private String password;
@@ -32,4 +33,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Qna> qnaBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Cart> cart = new ArrayList<>();
 }

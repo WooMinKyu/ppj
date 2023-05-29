@@ -6,6 +6,7 @@ import com.woo.ppj.repository.QnaRepository;
 import com.woo.ppj.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class QnaService {
@@ -16,6 +17,7 @@ public class QnaService {
     @Autowired
     private QnaRepository qnaRepository;
 
+    @Transactional
     public Qna save(String username, Qna qna) {
         User user = userRepository.findByUsername(username);
         qna.setUser(user);
