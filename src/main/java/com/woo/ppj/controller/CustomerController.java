@@ -40,30 +40,33 @@ public class CustomerController {
     }
 
     @GetMapping("/qnaForm")
-    public String qnaForm(Model model, @RequestParam(required = false) Long id) {
+    public String qnaForm(Model model, @RequestParam(required = false) Long id,
+                            int page) {
         if(id == null) {
             model.addAttribute("qnaBoards", new Qna());
         } else {
             Qna qnaBoards = qnaRepository.findById(id).orElse(null);
             model.addAttribute("qnaBoards", qnaBoards);
         }
+        model.addAttribute("page", page);
         return "/customer/qnaForm";
     }
 
     @PostMapping("/qnaForm")
-    public String qnaForm(Qna qna, Authentication authentication) {
+    public String qnaForm(Qna qna, int page, Authentication authentication) {
         String username = authentication.getName();
-
+        String pageStr =  Integer.toString(page);
         qnaService.save(username, qna);
-        return "redirect:/customer/qna";
+        return "redirect:/customer/qna?page=" + pageStr;
     }
 
     @GetMapping("/qnaDetail")
-    public String qnaDetail(Model model, Long id , Authentication authentication) {
+    public String qnaDetail(Model model, Long id , int page, Authentication authentication) {
         Qna qnaBoards = qnaRepository.findById(id).orElse(null);
         Boolean correctId = qnaBoards.getUser().getUsername().equals(authentication.getName());
         model.addAttribute("correctId", correctId);
         model.addAttribute("qnaBoards", qnaBoards);
+        model.addAttribute("page", page);
         return "/customer/qnaDetail";
     }
 }

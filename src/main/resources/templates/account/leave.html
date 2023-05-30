@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: head('회원탈퇴')">
+
+</head>
+<body class="text-center">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/common :: menu('delete')">
+            
+    </nav>
+    <div class="d-flex justify-content-center" style="margin-top: 100px; margin-bottom: 200px;">
+        <form class="form-signin" id="delForm" th:action="@{/account/delete}" method="post">
+            <h1 class="h3 mb-3 font-weight-normal">회원탈퇴</h1>
+            <div class="mb-3">
+                <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호" required>
+            </div>
+            <button class="btn btn-lg btn-danger btn-block" id="delBtn" type="button">탈퇴</button>
+            <a class="btn btn-lg btn-outline-dark" th:href="@{/account/myPage}">취소</a>
+        </form>
+    </div>
+
+    <footer class="py-5 bg-dark" th:replace="fragments/common :: footer"></footer>
+    <script>
+        $(document).ready(function() {
+            $('#delBtn').click(function(e) {
+                e.preventDefault();
+                var password = $('#password').val();
+                if(password == '') {
+                    alert("비밀번호를 입력해주세요.")
+                } else {
+                    if(confirm("정말로 탈퇴하시겠습니까?")) {
+                        $.ajax({
+                        url: '/api/leave/' + '[[${user.id}]]' + '/' + password,
+                        type: 'DELETE',
+                        success: function (result) {
+                            alert('탈퇴가 완료되었습니다.');
+                            $('#delForm').submit();
+                            location.href = '/logout';
+                        },
+                        error: function (error) {
+                            alert('비밀번호를 확인해주세요.');
+                        }
+                        });
+                        
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+</html>

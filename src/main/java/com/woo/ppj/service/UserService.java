@@ -21,15 +21,17 @@ public class UserService {
     public User save(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        user.setEnabled(true);
 
-        Role role = new Role();
-        role.setId(1l);
-        user.getRoles().add(role);
+        if(user.getId() == null){
+            user.setEnabled(true);
+        }
+
+            Role role = new Role();
+            role.setId(1l);
+            user.getRoles().add(role);
 
         User saveUser = userRepository.save(user);
 
         return saveUser;
     }
-
 }

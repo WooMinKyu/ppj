@@ -1,6 +1,7 @@
 package com.woo.ppj.model;
 
 import lombok.Data;
+import org.hibernate.action.internal.OrphanRemovalAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,9 +32,9 @@ public class User {
     )
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Qna> qnaBoards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Cart> cart = new ArrayList<>();
 }

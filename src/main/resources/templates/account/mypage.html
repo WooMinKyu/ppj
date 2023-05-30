@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head th:replace="fragments/common :: head('마이페이지')">
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/common :: menu('mypage')">
+            
+        </nav>
+        <!-- Header-->
+        <header class="py-5">
+            <div class="container px-lg-5">
+                <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+                    <div class="m-4 m-lg-5">
+                        <h1 class="display-5 fw-bold">마이페이지</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Page Content-->
+        <section class="pt-4 pb-5 mb-5">
+            <div class="container px-lg-5">
+                <!-- Page Features-->
+                <div class="row">
+                    <div class="col mb-5">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <a th:href="@{/account/modify}" class="btn btn-outline-success"><h2 class="fs-4 fw-bold">회원 정보 수정</h2></a>
+                        </div>
+                    </div>
+                    <div class="col mb-5">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <a th:href="@{/account/leave}" class="btn btn-outline-danger"><h2 class="fs-4 fw-bold">회원 탈퇴</h2></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="py-5 bg-dark" th:replace="fragments/common :: footer"></footer>
+    </body>
+</html>

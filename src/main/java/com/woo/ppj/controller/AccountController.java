@@ -4,15 +4,17 @@ import com.woo.ppj.model.User;
 import com.woo.ppj.repository.UserRepository;
 import com.woo.ppj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/account")
 public class AccountController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -24,6 +26,7 @@ public class AccountController {
 
     @GetMapping("/register")
     public String register(){
+
         return "/account/register";
     }
 
@@ -31,5 +34,30 @@ public class AccountController {
     public String register(User user){
         userService.save(user);
         return "redirect:/";
+    }
+
+    @GetMapping("/myPage")
+    public String myPage(){
+        return "/account/myPage";
+    }
+
+    @GetMapping("/modify")
+    public String modify(Model model, Authentication authentication) {
+        User user = userRepository.findByUsername(authentication.getName());
+        model.addAttribute("user", user);
+        return "/account/modify";
+    }
+
+    @PostMapping("/modify")
+    public String modify(User user) {
+        userService.save(user);
+        return "redirect:/account/myPage";
+    }
+
+    @GetMapping("/leave")
+    public String delete(Model model, Authentication authentication) {
+        User user = userRepository.findByUsername(authentication.getName());
+        model.addAttribute("user", user);
+        return "/account/leave";
     }
 }
